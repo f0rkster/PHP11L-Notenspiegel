@@ -130,8 +130,4 @@ class PagesController extends \dwp\core\Controller
 		header('Location: index.php?c=pages&a=login');
 	}
 
-	public function actionError($errMsg = 'Unknown Error 404')
-    {
-        $this->setParam('errMsg', $errMsg);
-    }
 }

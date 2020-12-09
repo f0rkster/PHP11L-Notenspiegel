@@ -59,7 +59,7 @@ class Controller
 		if(!file_exists($viewPath))
 		{
             $viewPath = VIEWSPATH.$this->controller.DIRECTORY_SEPARATOR.'error.php';
-            extract(['errMsg'=>'Unknown View']);
+            extract(['errMsg'=>'Unknown View Error 404']);
             include $viewPath;
 		}
 		else

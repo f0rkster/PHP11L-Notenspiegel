@@ -60,7 +60,8 @@ if(file_exists(CONTROLLERSPATH.$controllerName.'Controller.php'))
     $actionMethod = 'action'.ucfirst($actionName);
     if(!method_exists($controller, $actionMethod))
     {
-        $controller->setAction('error');
+        require_once CONTROLLERSPATH.'errorController.php';
+        $controller = new \dwp\controller\ErrorController('error', 'error');
         $controller->actionError('Unknown Action Error 404');
     }
     else
@@ -73,8 +74,8 @@ if(file_exists(CONTROLLERSPATH.$controllerName.'Controller.php'))
 }
 else
     {
-        require_once CONTROLLERSPATH.'PagesController.php';
-        $controller = new \dwp\controller\PagesController('pages', 'error');
+        require_once CONTROLLERSPATH.'errorController.php';
+        $controller = new \dwp\controller\ErrorController('error', 'error');
         $controller->actionError('Unknown Controller Error 404');
     }
 
