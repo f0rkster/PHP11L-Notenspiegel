@@ -18,6 +18,9 @@ abstract class Model
     const TYPE_DECIMAL  = 'dec';
     const TYPE_DATE     = 'date';
     const TYPE_JSON     = 'json';
+    const TYPE_BOOL     = 'bool';
+    const TYPE_TIMESTAMP= 'timestamp';
+    const TYPE_TINYINT  = 'tinyint';
 
     protected $schema = [
     ];
@@ -40,7 +43,7 @@ abstract class Model
         // TODO: Implement the find
     }
 
-    public static function findOne(/* TODO: Add Arguments */)
+    public static function findOne()
     {
         // TODO: Implement the find
         //       Easy implementation of this method is, calling find() and reduce the array to one item or null

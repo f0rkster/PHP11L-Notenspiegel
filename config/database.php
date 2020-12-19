@@ -17,11 +17,6 @@ $options    = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
 ];
 
-//$options    = [
-//    3 => 2,
-//    19 => 2
-//];
-
 $db = null;
 
 try
