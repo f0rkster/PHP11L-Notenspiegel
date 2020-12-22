@@ -54,7 +54,7 @@ body {
 	margin-bottom: 8px;
 }
 
-.login-wrapper input, .signup-wrapper input, .exam-add-wrapper input {
+.login-wrapper input, .signup-wrapper input, .signup-wrapper select, .exam-add-wrapper input {
 	-webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

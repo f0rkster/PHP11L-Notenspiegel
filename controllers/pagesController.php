@@ -77,7 +77,40 @@ class PagesController extends \dwp\core\Controller
 		if(isset($_POST['submit']))
 		{
 
-			// TODO: Validate and create account in database if possible
+			// Validate and create account in database if possible
+            if(!empty($_POST['submit']['surname'])
+            && !empty($_POST['submit']['name'])
+            && !empty($_POST['submit']['gender'])
+            && !empty($_POST['submit']['email'])
+            && !empty($_POST['submit']['password'])
+            && !empty($_POST['submit']['passwordValidate'])
+            && $_POST['submit']['password'] === $_POST['submit']['passwordValidate']
+            && !empty($_POST['submit']['matriculationNumber'])
+            )
+            {
+                // required values
+                $surname             = $_POST['surname'];
+                $name                = $_POST['name'];
+                $gender              = $_POST['gender'];
+                $email               = $_POST['email'];
+                $password            = $_POST['password'];
+                $matriculationNumber = $_POST['matriculationNumber'];
+
+                // optional values
+		        $secondname   = !empty($_POST['submit']['secondname'])   ? $_POST['submit']['secondname']    : '';
+                $street       = !empty($_POST['submit']['street'])       ? $_POST['submit']['street']        : '';
+                $streetNumber = !empty($_POST['submit']['streetNumber']) ? $_POST['submit']['streetNumber']  : '';
+                $city         = !empty($_POST['submit']['city'])         ? $_POST['submit']['city']          : '';
+                $zipCode      = !empty($_POST['submit']['zipCode'])      ? $_POST['submit']['zipCode']       : '';
+                $phone        = !empty($_POST['submit']['phone'])        ? $_POST['submit']['phone']         : '';
+
+                foreach ($_POST['submit'] as $key)
+                {
+                    // TODO: hier muss was in die datenbank geworfen werden
+                    //
+                }
+
+            }
 			
 
 			// if there is no error reset mail
