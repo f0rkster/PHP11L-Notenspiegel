@@ -25,7 +25,7 @@ abstract class Model
     protected $schema = [
     ];
 
-    private $values = [
+    protected $values = [
     ];
 
     public static function tablename()
@@ -38,7 +38,7 @@ abstract class Model
         return null;
     }
 
-    public static function find($where = '')
+    public static function find($where = '') // TODO: SQL injection verhindern
     {
         // Implement the find
         $db = $GLOBALS['db'];
@@ -72,13 +72,17 @@ abstract class Model
     public function __construct($values)
     {
         // Write values using the magic methods
-        // TODO: das muss man sich noch einmal angucken
-        //       ich möchte eigentlich das schema einmal übernehmen
-        //       und dann jedem attribut einen wert zuweisen
-        foreach ($this->schema as $key) {
-            $this->__set($key, $values);
+        foreach ($this->schema as $key => $value)
+        {
+            if (isset($values[$key]))
+            {
+                $this->{$key} = $values[$key];
+            }
+            else
+            {
+                $this->{$key} = null;
+            }
         }
-
     }
 
     public function __set($key, $value)
@@ -87,7 +91,7 @@ abstract class Model
         // If set the new value to the $this->values array
         if(isset($this->schema[$key]))
         {
-            $this->schema[$key] = $value;
+            $this->values[$key] = $value;
         }
     }
 
@@ -95,9 +99,9 @@ abstract class Model
     {
         // Check is the key in the schema?
         // If so return the value in values if not exists return default value from schema or null
-        if(isset($this->schema[$key]))
+        if(isset($this->values[$key]))
         {
-            return $this->schema[$key];
+            return $this->values[$key];
         }
     }
 
@@ -115,7 +119,21 @@ abstract class Model
 
         try
         {
-            $sql    =   'INSERT INTO ' . self::tablename() . '( /*TODO: type,name,customer*/) VALUES (/*TODO: :type,:name,:customer*/)';
+            $attributes = '';
+
+            $params = '';
+
+            foreach ($this->schema as $key => $value)
+            {
+                $attributes .= '`'.$key.'`,';
+                ($this->values[$key] === null || $this->values[$key] === '') ? $params .= 'NULL,' : $params .= $db->quote($this->values[$key]).',';
+            }
+            $attributes = trim($attributes, ',');
+            $params = trim($params, ',');
+
+            $sql    =   'INSERT INTO ' . self::tablename() . '(' . $attributes . ') VALUES (' .$params. ')';
+
+            //die($sql);
 
             $statement = $db->prepare($sql);
             /* TODO: ich will den folgenden text in eine for schleife packen
@@ -123,8 +141,12 @@ abstract class Model
              * $statement->bindParam(':name', $this->name);
              * $statement->bindParam(':customer', $this->customer);
              */
-
+            $db->beginTransaction();
             $statement->execute();
+
+            $this->values['id'] = $db->lastInsertId();
+
+            $db->commit();
             return true;
         }
         catch(\PDOException $e)

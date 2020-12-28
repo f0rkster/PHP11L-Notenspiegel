@@ -11,6 +11,9 @@
 namespace dwp\controller;
 
 
+use dwp\core\loginModel;
+use dwp\core\studentModel;
+
 class PagesController extends \dwp\core\Controller
 {
 
@@ -76,10 +79,9 @@ class PagesController extends \dwp\core\Controller
 		// check user send login field
 		if(isset($_POST['submit']))
 		{
-
 			// Validate and create account in database if possible
-            if(!empty($_POST['submit']['surname'])
-            && !empty($_POST['submit']['name'])
+            if(!empty($_POST['submit']['firstname'])
+            && !empty($_POST['submit']['lastname'])
             && !empty($_POST['submit']['gender'])
             && !empty($_POST['submit']['email'])
             && !empty($_POST['submit']['password'])
@@ -89,12 +91,12 @@ class PagesController extends \dwp\core\Controller
             )
             {
                 // required values
-                $surname             = $_POST['surname'];
-                $name                = $_POST['name'];
-                $gender              = $_POST['gender'];
-                $email               = $_POST['email'];
-                $password            = $_POST['password'];
-                $matriculationNumber = $_POST['matriculationNumber'];
+                $firstname           = $_POST['submit']['firstname'];
+                $lastname            = $_POST['submit']['lastname'];
+                $gender              = $_POST['submit']['gender'];
+                $email               = $_POST['submit']['email'];
+                $password            = password_hash($_POST['submit']['password'], PASSWORD_DEFAULT);
+                $matriculationNumber = $_POST['submit']['matriculationNumber'];
 
                 // optional values
 		        $secondname   = !empty($_POST['submit']['secondname'])   ? $_POST['submit']['secondname']    : '';
@@ -104,14 +106,43 @@ class PagesController extends \dwp\core\Controller
                 $zipCode      = !empty($_POST['submit']['zipCode'])      ? $_POST['submit']['zipCode']       : '';
                 $phone        = !empty($_POST['submit']['phone'])        ? $_POST['submit']['phone']         : '';
 
-                foreach ($_POST['submit'] as $key)
+                // TODO: check Password charakter (uppercase, lowercase, etc.)
+                /*foreach ($_POST['submit'] as $key)
                 {
-                    // TODO: hier muss was in die datenbank geworfen werden
-                    //
-                }
+                }*/
+                $studentModel = new studentModel($_POST['submit']);
+
+                $studentModel->insert();
+
+                $loginModel   = new loginModel($_POST['submit']);
+
+                $loginModel->student = $studentModel->id;
+                $loginModel->validated = false;
+                $loginModel->enabled = true;                // TODO: Lös das in der Datenbank du sack
+                $loginModel->failedLoginCount = 0;          // TODO: CONSTRAINT EMAIL UNIQUE MACHEN!!!!!
+                $loginModel->passwordHash = $password;
+
+                $loginModel->insert();
+
+                /*$this->setParam('firstname'             , $firstname);
+                $this->setParam('lastname'              , $name);
+                $this->setParam('gender'                , $gender);
+                $this->setParam('email'                 , $email);
+                $this->setParam('passwordHash'          , password_hash($password, PASSWORD_DEFAULT));
+                $this->setParam('matriculationNumber'   , $matriculationNumber);
+
+                $this->setParam('secondname'            , $secondname);
+                $this->setParam('street'                , $street);
+                $this->setParam('streetNumber'          , $streetNumber);
+                $this->setParam('city'                  , $city);
+                $this->setParam('zipCode'               , $zipCode);
+                $this->setParam('phone'                 , $phone);*/
 
             }
-			
+            else
+            {
+                die(var_dump($_POST)); // TODO: Error Handle
+            }
 
 			// if there is no error reset mail
 			if($errMsg === null)
@@ -124,13 +155,11 @@ class PagesController extends \dwp\core\Controller
 		$this->setParam('errMsg', $errMsg);
 
 		// TODO: Set params for account
-		
 	}
 
 	public function actionExams()
 	{
 		// TODO: Check user is logged in
-		
 		// store error message
 		$errMsg = null;
 

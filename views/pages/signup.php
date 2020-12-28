@@ -12,10 +12,10 @@
 				<div class="row">
                     <div class="col-6">
                         <div class="input">
-                            <label for="surname">
+                            <label for="firstname">
                                 Vorname
                             </label>
-                            <input id="surname" name="submit[surname]" type="surname" placeholder="Max" value="" required/>
+                            <input id="firstname" name="submit[firstname]" type="firstname" placeholder="Max" value="" required/>
                         </div>
                     </div>
                     <div class="col-6">
@@ -28,22 +28,22 @@
                     </div>
                     <div class="col-6">
                         <div class="input">
-                            <label for="name">
+                            <label for="lastname">
                                 Name
                             </label>
-                            <input id="name" name="submit[name]" type="name" placeholder="Mustermann" value="" required />
+                            <input id="lastname" name="submit[lastname]" type="lastname" placeholder="Mustermann" value="" required />
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="input">
                             <label for="gender">
-                                Name
+                                Geschlecht
                             </label>
                             <select name="submit[gender]" id="gender" required>
                                 <option hidden="hidden" selected value="">Geschlecht...</option>
-                                <option value="male">männlich</option>
-                                <option value="female">weiblich</option>
-                                <option value="uni">divers</option>
+                                <option value="m">männlich</option>
+                                <option value="f">weiblich</option>
+                                <option value="u">divers</option>
                             </select>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                             <label for="passwordValidate">
                                 Passwort bestätigen
                             </label>
-                            <input id="passwordValidate" name="submit[passwordValidate]" type="passwordValidate" value="" required />
+                            <input id="passwordValidate" name="submit[passwordValidate]" type="password" value="" required />
                         </div>
                     </div>
                     <div class="col-6">
@@ -99,7 +99,7 @@
                 <div class="col-6">
                     <div class="input">
                         <label for="zipCode">
-                            Stadt
+                            PLZ
                         </label>
                         <input id="zipCode" name="submit[zipCode]" type="zipCode" placeholder="12345" value="" />
                     </div>
@@ -117,15 +117,13 @@
                         <label for="matriculationNumber">
                             Matrikelnummer
                         </label>
-                        <input id="matriculationNumber" name="matriculationNumber" type="matriculationNumber" placeholder="1122334455" value="" required/>
+                        <input id="matriculationNumber" name="submit[matriculationNumber]" type="matriculationNumber" placeholder="1122334455" value="" required/>
                     </div>
                 </div>
             </div>
 
 			<div class="input submit">
-				<input name="submit" type="submit" value="Erstellen"/>
-                <!--TODO: Muss ich hier die insert methode aufrufen?-->
-                <!--oder muss ich irgendwo if(isset()) aufrufen?-->
+				<input name="submit[action]" type="submit" value="Erstellen"/>
 			</div>
 
 			<div class="signup-footer">

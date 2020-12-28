@@ -4,7 +4,7 @@ namespace dwp\core;
 
 class studentModel extends \dwp\core\Model
 {
-    const TABELNAME = '`student`';
+    const TABLENAME = '`student`';
     protected $schema = [
         'id'                    =>  ['type' =>  \dwp\core\Model::TYPE_INTEGER,  'null'  =>  false],
         'createdAt'             =>  ['type' =>  \dwp\core\Model::TYPE_DATE,     'null'  =>  false],

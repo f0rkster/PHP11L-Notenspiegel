@@ -23,7 +23,7 @@ foreach(glob('models/*.php') as $modelclass)
 }
 
 // start session to handle login
-session_save_path(__DIR__.DIRECTORY_SEPARATOR.'data');
+session_save_path(DATAPATH);
 session_start();
 
 // check which controller should be loaded
